@@ -36,6 +36,8 @@ public:
 
     void operator+= (const Matrix&);
     void operator-=(const Matrix&);
+    Matrix<elemType>& operator=(const Matrix<elemType>&);
+
 
     elemType operator() (int row, int column) const {return _matrix[row][column];}
     elemType& operator()(int row, int column) {return _matrix[row][column];}
@@ -55,9 +57,9 @@ public:
     static Matrix<elemType> upper_triangular(const Matrix<elemType>&);
 
 private:
-    std::vector<std::vector<elemType>> _matrix;
     int _rows;
     int _cols;
+    std::vector<std::vector<elemType>> _matrix;
 };
 
 template<typename elemType>
@@ -124,6 +126,17 @@ void Matrix<elemType>::operator-=(const Matrix<elemType> &m) {
         }
     }
 }
+
+template<typename elemType>
+Matrix<elemType> &Matrix<elemType>::operator=(const Matrix &rhs) {
+    if (this != &rhs) {
+        _rows = rhs.rows();
+        _cols = rhs.cols();
+        _matrix = rhs._matrix;
+    }
+    return *this;
+}
+
 
 template<typename elemType>
 void Matrix<elemType>::checkMultiply(const Matrix &m1, const Matrix &m2) {
@@ -406,10 +419,10 @@ Matrix<elemType> Matrix<elemType>::upper_triangular(const Matrix<elemType> &m) {
         return result; // 空矩阵直接返回
     }
 
-    size_t k = 0;  //当前处理的行（主元行）
+    int k = 0;  //当前处理的行（主元行）
 
     while(k < m.rows() && k < m.cols()) {
-        size_t pivot_row = k;  //在第 k 列中，从第 k 行开始找非零主元
+        int pivot_row = k;  //在第 k 列中，从第 k 行开始找非零主元
 
         while (pivot_row < m.rows() && result(pivot_row,k) == elemType(0)) {
             pivot_row++;
@@ -426,7 +439,7 @@ Matrix<elemType> Matrix<elemType>::upper_triangular(const Matrix<elemType> &m) {
         }
 
         //用第 k 行消去下面所有行在第 k 列的元素
-         for(size_t i = k+1; i < m.rows(); ++i) {
+         for(int i = k+1; i < m.rows(); ++i) {
              //如果第 i 行第 k 列已经是 0，跳过
              if(result(i,k) == 0) continue;
 

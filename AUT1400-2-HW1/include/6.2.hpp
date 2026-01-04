@@ -2,8 +2,7 @@
 // Created by Administrator on 2025/9/14.
 //
 
-#ifndef INC_6_2_HPP
-#define INC_6_2_HPP
+#pragma once
 
 #include <vector>
 #include <sstream>
@@ -452,5 +451,3 @@ Matrix<elemType> Matrix<elemType>::upper_triangular(const Matrix<elemType> &m) {
     }
     return std::move(result);
 }
-
-#endif //INC_6_2_HPP

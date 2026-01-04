@@ -1,4 +1,3 @@
-# 指定最低 CMake 版本
 cmake_minimum_required(VERSION 3.29)
 
 # 项目名称（注意：CMake 项目名不能有连字符，建议用下划线）
